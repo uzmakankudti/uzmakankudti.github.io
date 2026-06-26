@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Uzma Begum Kankudti — Backend Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink:      #0D0F14;
+    --paper:    #F7F6F2;
+    --mid:      #6B6F7A;
+    --accent:   #3B5BDB;
+    --accent2:  #7048E8;
+    --glow:     #C5D3FF;
+    --card:     #FFFFFF;
+    --border:   #E4E4EE;
+    --green:    #2F9E44;
+    --mono:     'JetBrains Mono', monospace;
+    --display:  'Syne', sans-serif;
+    --body:     'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(247,246,242,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 clamp(1rem,5vw,3rem);
+    height: 56px;
+  }
+  .nav-logo { font-family: var(--display); font-weight: 800; font-size: 1rem; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+  .nav-links a { font-size: .82rem; font-weight: 500; color: var(--mid); text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2rem;
+    padding: 7rem clamp(1.5rem,8vw,5rem) 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image: radial-gradient(circle at 70% 40%, rgba(59,91,219,.08) 0%, transparent 60%),
+      linear-gradient(rgba(59,91,219,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,91,219,.04) 1px, transparent 1px);
+    background-size: auto, 40px 40px, 40px 40px;
+  }
+  .hero-left { position: relative; z-index: 1; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-family: var(--mono); font-size: .75rem; font-weight: 500;
+    color: var(--accent); background: var(--glow); border-radius: 4px;
+    padding: .25rem .75rem; margin-bottom: 1.25rem;
+    letter-spacing: .04em;
+  }
+  .hero-eyebrow::before { content: '●'; font-size: .5rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -.03em;
+    margin-bottom: .75rem;
+  }
+  h1 .accent-line { color: var(--accent); display: block; }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--mid); max-width: 460px;
+    margin-bottom: 2rem; line-height: 1.7;
+  }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .7rem 1.5rem; border-radius: 8px;
+    font-weight: 600; font-size: .9rem; text-decoration: none;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    box-shadow: 0 4px 16px rgba(59,91,219,.35);
+  }
+  .btn-primary:hover { box-shadow: 0 8px 24px rgba(59,91,219,.45); }
+  .btn-outline {
+    background: transparent; color: var(--ink);
+    border: 1.5px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-right { position: relative; z-index: 1; display: flex; justify-content: center; }
+  .hero-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%; max-width: 360px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.07);
+  }
+  .avatar-ring {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-size: 1.6rem; font-weight: 800;
+    color: #fff; margin-bottom: 1rem;
+    box-shadow: 0 4px 20px rgba(59,91,219,.4);
+  }
+  .hero-card h3 { font-family: var(--display); font-size: 1.1rem; font-weight: 700; }
+  .hero-card p { font-size: .82rem; color: var(--mid); margin: .2rem 0 1.25rem; }
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: 1.25rem; }
+  .stat-box {
+    background: var(--paper);
+    border-radius: 10px; padding: .75rem;
+    text-align: center;
+  }
+  .stat-box .num { font-family: var(--display); font-size: 1.4rem; font-weight: 800; color: var(--accent); }
+  .stat-box .lbl { font-size: .7rem; color: var(--mid); margin-top: .1rem; }
+  .status-badge {
+    display: flex; align-items: center; gap: .5rem;
+    background: #EBFBEE; border-radius: 8px; padding: .5rem .75rem;
+    font-size: .78rem; font-weight: 600; color: var(--green);
+  }
+  .status-badge::before { content: '●'; font-size: .5rem; animation: pulse 2s infinite; }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem clamp(1.5rem,8vw,5rem); }
+  section:nth-child(even) { background: var(--card); }
+
+  .section-label {
+    font-family: var(--mono); font-size: .72rem; font-weight: 500;
+    color: var(--accent); letter-spacing: .08em; text-transform: uppercase;
+    margin-bottom: .5rem;
+  }
+  h2 {
+    font-family: var(--display); font-size: clamp(1.6rem,3vw,2.2rem);
+    font-weight: 800; letter-spacing: -.02em;
+    margin-bottom: 2.5rem;
+    line-height: 1.15;
+  }
+  h2 em { font-style: normal; color: var(--accent); }
+
+  /* ── WHY HIRE ME ── */
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.25rem; }
+  .why-card {
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.5rem;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .why-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.07); }
+  .why-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; margin-bottom: 1rem;
+  }
+  .why-card h4 { font-family: var(--display); font-weight: 700; font-size: 1rem; margin-bottom: .4rem; }
+  .why-card p { font-size: .85rem; color: var(--mid); line-height: 1.6; }
+
+  /* ── SKILLS DASHBOARD ── */
+  .skills-outer { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .skill-category { margin-bottom: 1.5rem; }
+  .skill-category h4 {
+    font-family: var(--mono); font-size: .75rem; font-weight: 500;
+    color: var(--mid); letter-spacing: .06em; text-transform: uppercase;
+    margin-bottom: .75rem;
+  }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .pill {
+    font-size: .8rem; font-weight: 500;
+    padding: .35rem .85rem; border-radius: 999px;
+    background: var(--glow); color: var(--accent);
+    border: 1px solid rgba(59,91,219,.2);
+  }
+  .pill.alt { background: #F3F0FF; color: var(--accent2); border-color: rgba(112,72,232,.2); }
+
+  .bar-row { margin-bottom: .9rem; }
+  .bar-label { display: flex; justify-content: space-between; font-size: .82rem; font-weight: 500; margin-bottom: .3rem; }
+  .bar-track { height: 6px; border-radius: 999px; background: var(--border); overflow: hidden; }
+  .bar-fill {
+    height: 100%; border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 1s ease;
+  }
+
+  /* ── EXPERIENCE TIMELINE ── */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: .5rem; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .tl-item { position: relative; margin-bottom: 2.5rem; }
+  .tl-dot {
+    position: absolute; left: -2rem;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent); border: 3px solid var(--paper);
+    transform: translateX(-5px);
+    box-shadow: 0 0 0 3px rgba(59,91,219,.2);
+    top: .4rem;
+  }
+  .tl-meta { font-family: var(--mono); font-size: .72rem; color: var(--mid); margin-bottom: .3rem; }
+  .tl-title { font-family: var(--display); font-size: 1.1rem; font-weight: 700; }
+  .tl-company { font-size: .9rem; color: var(--accent); font-weight: 600; margin-bottom: .6rem; }
+  .tl-body { font-size: .87rem; color: var(--mid); line-height: 1.7; }
+  .tl-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .75rem; }
+  .tl-tag {
+    font-family: var(--mono); font-size: .7rem; font-weight: 500;
+    padding: .2rem .6rem; border-radius: 4px;
+    background: var(--paper); border: 1px solid var(--border); color: var(--mid);
+  }
+
+  /* ── PROJECTS ── */
+  .proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1.25rem; }
+  .proj-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.6rem;
+    display: flex; flex-direction: column;
+    transition: transform .2s, box-shadow .2s;
+    position: relative; overflow: hidden;
+  }
+  .proj-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .proj-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.08); }
+  .proj-type { font-family: var(--mono); font-size: .7rem; color: var(--mid); margin-bottom: .4rem; }
+  .proj-card h3 { font-family: var(--display); font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+  .proj-card p { font-size: .84rem; color: var(--mid); line-height: 1.65; flex: 1; }
+  .proj-stack { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+  .proj-link {
+    display: inline-flex; align-items: center; gap: .35rem;
+    font-size: .78rem; font-weight: 600; color: var(--accent);
+    text-decoration: none; margin-top: .75rem;
+  }
+  .proj-link:hover { text-decoration: underline; }
+
+  /* ── EDUCATION ── */
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1.25rem; }
+  .edu-card {
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.5rem;
+  }
+  .edu-year { font-family: var(--mono); font-size: .72rem; color: var(--mid); margin-bottom: .3rem; }
+  .edu-card h4 { font-family: var(--display); font-weight: 700; font-size: 1rem; margin-bottom: .2rem; }
+  .edu-card p { font-size: .85rem; color: var(--mid); }
+  .edu-score {
+    display: inline-block; margin-top: .6rem;
+    font-family: var(--mono); font-size: .78rem; font-weight: 500;
+    background: var(--glow); color: var(--accent); padding: .2rem .6rem;
+    border-radius: 4px;
+  }
+
+  /* ── CAREER GOALS ── */
+  .goals-block {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    border-radius: 20px; padding: 3rem clamp(1.5rem,5vw,4rem);
+    color: #fff; position: relative; overflow: hidden;
+  }
+  .goals-block::before {
+    content: '</>';
+    position: absolute; right: 3rem; top: 50%; transform: translateY(-50%);
+    font-family: var(--mono); font-size: 8rem; font-weight: 700;
+    opacity: .08; line-height: 1;
+  }
+  .goals-block .section-label { color: rgba(255,255,255,.7); }
+  .goals-block h2 { color: #fff; margin-bottom: 1rem; }
+  .goals-block p { color: rgba(255,255,255,.85); max-width: 640px; line-height: 1.8; font-size: 1rem; }
+  .goals-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: .6rem; }
+  .goals-list li {
+    display: flex; align-items: flex-start; gap: .75rem;
+    font-size: .9rem; color: rgba(255,255,255,.9); list-style: none;
+  }
+  .goals-list li::before {
+    content: '→'; font-family: var(--mono); font-size: .9rem;
+    color: rgba(255,255,255,.5); flex-shrink: 0;
+  }
+
+  /* ── KEY STRENGTHS ── */
+  .strength-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1rem; }
+  .strength-card {
+    border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;
+    text-align: center; transition: border-color .2s;
+  }
+  .strength-card:hover { border-color: var(--accent); }
+  .strength-card .ico { font-size: 1.8rem; margin-bottom: .6rem; }
+  .strength-card h4 { font-family: var(--display); font-weight: 700; font-size: .95rem; margin-bottom: .3rem; }
+  .strength-card p { font-size: .8rem; color: var(--mid); line-height: 1.5; }
+
+  /* ── CONTACT ── */
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; }
+  .contact-card {
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem;
+    display: flex; align-items: center; gap: 1rem; text-decoration: none; color: var(--ink);
+    transition: border-color .2s, transform .15s;
+  }
+  .contact-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .contact-ico {
+    width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+    background: var(--glow); display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .contact-card .lbl { font-size: .72rem; color: var(--mid); font-family: var(--mono); }
+  .contact-card .val { font-size: .88rem; font-weight: 500; word-break: break-all; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 2rem;
+    font-family: var(--mono); font-size: .72rem; color: var(--mid);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    #hero { grid-template-columns: 1fr; padding-top: 5rem; }
+    .hero-right { display: none; }
+    .skills-outer { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .goals-block::before { display: none; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">UK<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-left reveal">
+    <div class="hero-eyebrow">Available for Opportunities</div>
+    <h1>
+      Uzma Begum<br>
+      <span class="accent-line">Kankudti</span>
+    </h1>
+    <p class="hero-sub">
+      Backend Developer building scalable REST APIs and server-side systems.
+      1+ year of production experience with Node.js, Express.js, and both SQL &amp; NoSQL databases.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">📬 Get in Touch</a>
+      <a href="#projects" class="btn btn-outline">View Projects →</a>
+    </div>
+  </div>
+  <div class="hero-right reveal">
+    <div class="hero-card">
+      <div class="avatar-ring">UK</div>
+      <h3>Uzma Begum Kankudti</h3>
+      <p>Backend Developer · Hubli, Karnataka</p>
+      <div class="stat-row">
+        <div class="stat-box"><div class="num">1+</div><div class="lbl">Year XP</div></div>
+        <div class="stat-box"><div class="num">7</div><div class="lbl">Projects</div></div>
+        <div class="stat-box"><div class="num">79.8%</div><div class="lbl">B.E. Score</div></div>
+        <div class="stat-box"><div class="num">3</div><div class="lbl">Languages</div></div>
+      </div>
+      <div class="status-badge">Open to Full-Time &amp; Contract Roles</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY HIRE ME -->
+<section id="about">
+  <div class="section-label">// why hire me</div>
+  <h2>What Sets Me <em>Apart</em></h2>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="why-icon">⚡</div>
+      <h4>Production-Ready APIs</h4>
+      <p>Built and deployed REST APIs used in live e-commerce platforms — not just coursework demos. Real traffic. Real debugging. Real results.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">🗄️</div>
+      <h4>Full Database Stack</h4>
+      <p>Fluent in both SQL (MySQL, PostgreSQL) and NoSQL (MongoDB). Designs schemas that balance performance with data integrity from day one.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">🔐</div>
+      <h4>Security-First Mindset</h4>
+      <p>Implements JWT authentication and role-based access control (admin/customer) as standard practice, not an afterthought.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">🚀</div>
+      <h4>Fast Learner</h4>
+      <p>Went from diploma to B.E. (79.8%) to full-time backend developer within a year of graduating, while delivering production code.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">🤝</div>
+      <h4>Team Collaborator</h4>
+      <p>Experienced in agile cross-functional teams, code reviews on GitHub, and delivering milestones on schedule — proven at two companies.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">🔧</div>
+      <h4>Full API Lifecycle</h4>
+      <p>Designs, builds, tests (Postman), documents, and deploys APIs end to end — reducing handoff friction for every team she joins.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS DASHBOARD -->
+<section id="skills">
+  <div class="section-label">// skills dashboard</div>
+  <h2>Technical <em>Arsenal</em></h2>
+  <div class="skills-outer">
+    <div>
+      <div class="skill-category reveal">
+        <h4>Languages</h4>
+        <div class="skill-pills">
+          <span class="pill">JavaScript (Node.js)</span>
+          <span class="pill">SQL</span>
+          <span class="pill alt">Python</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <h4>Frameworks</h4>
+        <div class="skill-pills">
+          <span class="pill">Express.js</span>
+          <span class="pill alt">Django (Basic)</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <h4>Databases</h4>
+        <div class="skill-pills">
+          <span class="pill">MongoDB</span>
+          <span class="pill">MySQL</span>
+          <span class="pill">PostgreSQL</span>
+          <span class="pill alt">Mongoose</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <h4>API &amp; Auth</h4>
+        <div class="skill-pills">
+          <span class="pill">RESTful APIs</span>
+          <span class="pill">JWT Auth</span>
+          <span class="pill">CRUD</span>
+          <span class="pill alt">Middleware</span>
+          <span class="pill alt">RBAC</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <h4>Tools</h4>
+        <div class="skill-pills">
+          <span class="pill">Git &amp; GitHub</span>
+          <span class="pill">Postman</span>
+          <span class="pill">VS Code</span>
+          <span class="pill alt">MySQL Workbench</span>
+          <span class="pill alt">Excel</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <h4>Other</h4>
+        <div class="skill-pills">
+          <span class="pill alt">Networking (Basic)</span>
+          <span class="pill">AI Integration (Claude)</span>
+          <span class="pill alt">UI/UX Design</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <h4 style="font-family:var(--mono);font-size:.75rem;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.25rem;">Proficiency</h4>
+      <div class="bar-row"><div class="bar-label"><span>Node.js / Express.js</span><span>90%</span></div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>RESTful API Design</span><span>90%</span></div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>MongoDB &amp; Mongoose</span><span>85%</span></div><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>MySQL / PostgreSQL</span><span>80%</span></div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>JWT Auth &amp; RBAC</span><span>80%</span></div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>Git &amp; GitHub</span><span>75%</span></div><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>Python / Django</span><span>55%</span></div><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY STRENGTHS -->
+<section>
+  <div class="section-label">// key strengths</div>
+  <h2>Core <em>Strengths</em></h2>
+  <div class="strength-grid">
+    <div class="strength-card reveal">
+      <div class="ico">🧩</div>
+      <h4>Problem Solver</h4>
+      <p>Approaches bugs and architecture challenges methodically, with a focus on root-cause fixes.</p>
+    </div>
+    <div class="strength-card reveal">
+      <div class="ico">📐</div>
+      <h4>Clean Code</h4>
+      <p>Writes maintainable, MVC-structured code with clear separation of concerns.</p>
+    </div>
+    <div class="strength-card reveal">
+      <div class="ico">🔗</div>
+      <h4>Integration Expertise</h4>
+      <p>Experience integrating third-party payment gateways and shipping APIs into production backends.</p>
+    </div>
+    <div class="strength-card reveal">
+      <div class="ico">📊</div>
+      <h4>Data Modeling</h4>
+      <p>Designs normalized SQL schemas and MongoDB Mongoose models optimized for real workloads.</p>
+    </div>
+    <div class="strength-card reveal">
+      <div class="ico">📝</div>
+      <h4>Documentation</h4>
+      <p>Thorough API documentation via Postman collections — every endpoint covered, every team member helped.</p>
+    </div>
+    <div class="strength-card reveal">
+      <div class="ico">🌐</div>
+      <h4>Multilingual</h4>
+      <p>Communicates fluently in English, Hindi, and Kannada — an asset in diverse team environments.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">// professional experience</div>
+  <h2>Work <em>History</em></h2>
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-meta">Jun 2025 – Present · Full-Time · Hubli, KA</div>
+      <div class="tl-title">Backend Developer</div>
+      <div class="tl-company">Orbit Core Tech</div>
+      <div class="tl-body">
+        Designing and developing scalable RESTful APIs using Node.js and Express.js for production-level retail and e-commerce platforms — covering product catalogs, inventory, orders, and user management.<br><br>
+        Building and optimizing SQL schemas (MySQL / PostgreSQL) for transactional data including orders, payments, and product listings. Designing MongoDB schemas and implementing Mongoose models with robust validation and centralized error handling.<br><br>
+        Developing custom middleware for JWT-based authentication and role-based access control. Integrating third-party payment gateway and shipping service APIs. Testing and documenting all endpoints via Postman; managing code reviews through Git and GitHub.
+      </div>
+      <div class="tl-tags">
+        <span class="tl-tag">Node.js</span><span class="tl-tag">Express.js</span><span class="tl-tag">MySQL</span>
+        <span class="tl-tag">PostgreSQL</span><span class="tl-tag">MongoDB</span><span class="tl-tag">JWT</span>
+        <span class="tl-tag">RBAC</span><span class="tl-tag">Postman</span><span class="tl-tag">GitHub</span>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-meta">2024 · Internship</div>
+      <div class="tl-title">Full Stack Developer Intern</div>
+      <div class="tl-company">SVARKS</div>
+      <div class="tl-body">
+        Built web application features using the Python Django framework with a focus on backend business logic. Implemented URL routing, database models using Django ORM, and server-side validations. Collaborated with cross-functional team members to deliver project milestones on schedule.
+      </div>
+      <div class="tl-tags">
+        <span class="tl-tag">Python</span><span class="tl-tag">Django</span><span class="tl-tag">Django ORM</span>
+        <span class="tl-tag">Full Stack</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">// projects & achievements</div>
+  <h2>Things I've <em>Built</em></h2>
+  <div class="proj-grid">
+    <div class="proj-card reveal">
+      <div class="proj-type">// E-Commerce · Production</div>
+      <h3>Retail &amp; E-Commerce Backend System</h3>
+      <p>Full-featured e-commerce REST API with JWT auth, product management, shopping cart, order processing, and payment integration. Normalized MySQL schemas + MongoDB for session/cart data. MVC architecture, RBAC, and full Postman documentation.</p>
+      <div class="proj-stack">
+        <span class="pill">Node.js</span><span class="pill">Express.js</span><span class="pill">MySQL</span><span class="pill alt">MongoDB</span>
+      </div>
+      <a href="https://bare.orbitcoretech.org/" class="proj-link" target="_blank">↗ Live Site</a>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-type">// Production Project</div>
+      <h3>Machaliwala — Online Fish Ordering Platform</h3>
+      <p>Backend for a live fish ordering platform. Developed REST APIs for user authentication, product management, order processing, and inventory management. Database integration, API testing, bug fixing, and backend business logic as part of the dev team.</p>
+      <div class="proj-stack">
+        <span class="pill">Node.js</span><span class="pill">Express.js</span><span class="pill alt">Databases</span>
+      </div>
+      <a href="https://machaliwala.com/" class="proj-link" target="_blank">↗ Live Site</a>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-type">// Internship Project</div>
+      <h3>Parking Management System</h3>
+      <p>RESTful API to manage vehicle parking slots with full CRUD operations and real-time slot availability tracking. Mongoose schema design with validation; all endpoints tested via Postman.</p>
+      <div class="proj-stack">
+        <span class="pill">Node.js</span><span class="pill">Express.js</span><span class="pill alt">MongoDB</span>
+      </div>
+      <a href="https://github.com/uzmakankudti/devNewParking.git" class="proj-link" target="_blank">↗ GitHub</a>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-type">// Python · Algorithms</div>
+      <h3>Data Duplication Removal Using File Checksum</h3>
+      <p>Built a checksum-based system to detect and remove duplicate files, reducing redundant data and improving storage efficiency across large file sets.</p>
+      <div class="proj-stack">
+        <span class="pill alt">Python</span>
+      </div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-type">// Deep Learning · Final Year</div>
+      <h3>Malnutrition Detection Using Deep Learning</h3>
+      <p>Developed a deep learning model to classify undernutrition and overnutrition in children under 5 using image-based detection — a high-impact application of ML to a real-world health problem.</p>
+      <div class="proj-stack">
+        <span class="pill alt">Python</span><span class="pill alt">Deep Learning</span>
+      </div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-type">// Web · Platform</div>
+      <h3>Tourism Management System</h3>
+      <p>Developed a platform connecting customers with travel agents for bookings and itinerary management, covering end-to-end trip planning workflows.</p>
+      <div class="proj-stack">
+        <span class="pill">Web Technologies</span>
+      </div>
+    </div>
+    <div class="proj-card reveal" style="border-color:rgba(112,72,232,.25);">
+      <div class="proj-type">// AI-Powered · Full Stack</div>
+      <h3>Yoga — Claude AI Full Stack App</h3>
+      <p>Built a complete full-stack application powered by Claude AI — covering frontend design, backend development, and UI/UX end to end. Demonstrates ability to work across the entire product stack using Claude as the AI engine. Also showcases basic networking knowledge applied in the project architecture.</p>
+      <div class="proj-stack">
+        <span class="pill">Full Stack</span><span class="pill alt">Claude AI</span><span class="pill">Frontend</span><span class="pill alt">UI/UX Design</span><span class="pill">Backend</span><span class="pill alt">Networking</span>
+      </div>
+      <a href="https://github.com/uzmakankudti/Yoga.git" class="proj-link" target="_blank">↗ GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">// education</div>
+  <h2>Academic <em>Background</em></h2>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div class="edu-year">2021 – 2025</div>
+      <h4>B.E. — Information Science &amp; Engineering</h4>
+      <p>SKSVMACET, Laxmeshwar</p>
+      <span class="edu-score">79.8% — Distinction</span>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-year">2018 – 2021</div>
+      <h4>Diploma — Computer Science</h4>
+      <p>Govt. Polytechnic Vidyanagar, Hubli</p>
+      <span class="edu-score">61.76%</span>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-year">2018</div>
+      <h4>SSLC (10th Standard)</h4>
+      <p>Basel Mission Girls High School</p>
+      <span class="edu-score">80.64%</span>
+    </div>
+  </div>
+</section>
+
+<!-- CAREER GOALS -->
+<section>
+  <div class="goals-block reveal">
+    <div class="section-label">// career goals</div>
+    <h2>Where I'm <em>Headed</em></h2>
+    <p>I want to grow into a senior backend engineer who architects distributed systems at scale. My near-term focus is deepening my expertise in system design, microservices, and cloud infrastructure — while continuing to ship production-quality code.</p>
+    <ul class="goals-list">
+      <li>Master microservices architecture and containerization (Docker, Kubernetes)</li>
+      <li>Deepen cloud skills on AWS or GCP for scalable backend deployments</li>
+      <li>Contribute to open-source backend tooling in the Node.js ecosystem</li>
+      <li>Grow into a tech lead role that mentors junior developers</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">// contact</div>
+  <h2>Let's <em>Connect</em></h2>
+  <div class="contact-grid">
+    <a href="mailto:uzmakankudti88@gmail.com" class="contact-card reveal">
+      <div class="contact-ico">📧</div>
+      <div><div class="lbl">Email</div><div class="val">uzmakankudti88@gmail.com</div></div>
+    </a>
+    <a href="tel:+917618720867" class="contact-card reveal">
+      <div class="contact-ico">📱</div>
+      <div><div class="lbl">Phone</div><div class="val">+91 76187 20867</div></div>
+    </a>
+    <a href="https://wa.me/917618720867" target="_blank" class="contact-card reveal">
+      <div class="contact-ico">💬</div>
+      <div><div class="lbl">WhatsApp</div><div class="val">Chat on WhatsApp</div></div>
+    </a>
+    <a href="https://github.com/uzmakankudti" target="_blank" class="contact-card reveal">
+      <div class="contact-ico">🐙</div>
+      <div><div class="lbl">GitHub</div><div class="val">github.com/uzmakankudti</div></div>
+    </a>
+    <a href="https://bare.orbitcoretech.org/" target="_blank" class="contact-card reveal">
+      <div class="contact-ico">🌐</div>
+      <div><div class="lbl">Live Project</div><div class="val">bare.orbitcoretech.org</div></div>
+    </a>
+    <div class="contact-card reveal" style="cursor:default;">
+      <div class="contact-ico">📍</div>
+      <div><div class="lbl">Location</div><div class="val">Hubli, Karnataka, India</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Built with ❤️ · Uzma Begum Kankudti · Backend Developer · 2026
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
